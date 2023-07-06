@@ -1,0 +1,49 @@
+// Exportar os itens do local storage
+function exportLocalStorage() {
+  // Obtém todos os itens do local storage
+  var localStorageItems = { ...localStorage };
+
+  // Verifica se o local storage contém itens
+  if (Object.keys(localStorageItems).length > 0) {
+    // Cria um objeto para armazenar os itens do local storage
+    var localStorageObject = {};
+
+    // Percorre todos os itens do local storage
+    for (var key in localStorageItems) {
+      if (localStorageItems.hasOwnProperty(key)) {
+        // Adiciona o item ao objeto
+        localStorageObject[key] = localStorageItems[key];
+      }
+    }
+
+    // Converte o objeto JavaScript em JSON
+    var json = JSON.stringify(localStorageObject);
+
+    // Exibe os dados em uma caixa de diálogo para o usuário copiar manualmente
+    window.prompt('Copie os dados do local storage:', json);
+  } else {
+    console.log('O local storage está vazio.');
+  }
+}
+
+// Importar os itens do local storage a partir do JSON
+function importLocalStorage(json) {
+  try {
+    // Converte o JSON em um objeto JavaScript
+    var localStorageObject = JSON.parse(json);
+
+    // Limpa o local storage atual
+    localStorage.clear();
+
+    // Percorre os itens do objeto e os adiciona ao local storage
+    for (var key in localStorageObject) {
+      if (localStorageObject.hasOwnProperty(key)) {
+        localStorage.setItem(key, localStorageObject[key]);
+      }
+    }
+
+    console.log('Itens do local storage importados com sucesso.');
+  } catch (error) {
+    console.error('Erro ao importar itens do local storage:', error);
+  }
+}
